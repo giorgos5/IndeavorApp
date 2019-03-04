@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indeavor.API", "Indeavor.AP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Indeavor.Client", "Indeavor.Client\Indeavor.Client.csproj", "{7813A92D-2158-419B-8B72-01550F4B6028}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "test", "test\test.csproj", "{ECCF44A8-6209-4499-8EB5-D3D0D535E399}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{7813A92D-2158-419B-8B72-01550F4B6028}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7813A92D-2158-419B-8B72-01550F4B6028}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7813A92D-2158-419B-8B72-01550F4B6028}.Release|Any CPU.Build.0 = Release|Any CPU
-		{ECCF44A8-6209-4499-8EB5-D3D0D535E399}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{ECCF44A8-6209-4499-8EB5-D3D0D535E399}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{ECCF44A8-6209-4499-8EB5-D3D0D535E399}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{ECCF44A8-6209-4499-8EB5-D3D0D535E399}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
