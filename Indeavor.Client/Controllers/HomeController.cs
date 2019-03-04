@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 using Newtonsoft.Json;
 using Microsoft.Extensions.Configuration;
+using System.Globalization;
 
 namespace Indeavor.Client.Controllers
 {
@@ -338,6 +339,8 @@ namespace Indeavor.Client.Controllers
                     {
                         string response = streamReader.ReadToEnd();
                         employee = JsonConvert.DeserializeObject<Employee>(response);
+                        string defaultDate = DateTime.ParseExact(employee.HiringDate, "dd/MM/yyyy", CultureInfo.InvariantCulture).ToString("yyyy-MM-dd");
+                        employee.HiringDate = defaultDate;
                     }
                 }
                 catch (WebException e)
@@ -443,10 +446,19 @@ namespace Indeavor.Client.Controllers
                 System.Net.ServicePointManager.DefaultConnectionLimit = 9999;
                 ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
-                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(Configuration.GetSection("AppSettings")["RootUrl"] + Configuration.GetSection("AppSettings")["DeleteEmployeesAction"] + "?ids=" + IDs);
+                HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(Configuration.GetSection("AppSettings")["RootUrl"] + Configuration.GetSection("AppSettings")["DeleteEmployeesAction"]);
                 request.Method = WebRequestMethods.Http.Post;
                 request.Timeout = 30000;
                 request.ContentType = "text/json";
+
+                List<string> Ids = !string.IsNullOrEmpty(IDs) ? IDs.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
+
+                using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
+                {
+                    streamWriter.Write(JsonConvert.SerializeObject(Ids));
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
 
                 try
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Indeavor.API.Entity;
@@ -191,6 +192,12 @@ namespace Indeavor.API.Controllers
             Response resp = new Response();
             try
             {
+                try
+                {
+                    string date = DateTime.ParseExact(emp.HiringDate, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy");
+                    emp.HiringDate = date;
+                }
+                catch { }
                 _res.Entry(emp).State = EntityState.Modified;
                 _res.SaveChanges();
 
@@ -213,6 +220,12 @@ namespace Indeavor.API.Controllers
             Response resp = new Response();
             try
             {
+                try
+                {
+                    string date = DateTime.ParseExact(emp.HiringDate, "yyyy-MM-dd", CultureInfo.InvariantCulture).ToString("dd/MM/yyyy");
+                    emp.HiringDate = date;
+                }
+                catch { }
                 _res.Employees.Add(emp);
                 _res.SaveChanges();
 
@@ -231,12 +244,11 @@ namespace Indeavor.API.Controllers
 
         [HttpPost]
         [Route("DeleteEmployees")]
-        public string DeleteEmployees(string ids)
+        public string DeleteEmployees([FromBody]List<string> ids)
         {
             try
             {
-                List<string> IDs = !string.IsNullOrEmpty(ids) ? ids.Split(new char[] { '#' }, StringSplitOptions.RemoveEmptyEntries).ToList() : new List<string>();
-                foreach (string id in IDs)
+                foreach (string id in ids)
                 {
                     Employee emp = new Employee() { EmployeeId = long.Parse(id) };
                     _res.Employees.Attach(emp);

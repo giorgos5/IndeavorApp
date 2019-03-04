@@ -76,17 +76,10 @@
                                         {
                                         <tr id="@item.EmployeeId" role="row" class="@(odd ? "odd" : "even")">
                                             @*<td class="text-center">@item.Name</td>*@
-                                            <td>
-                                                <div class="row text-center">
-                                                    @*<div class="col-lg-8 m-t-xs" data-toggle="tooltip" data-original-title="@item.EmployeeId" data-placement="top">
-                                                        @item.Name
-                                                    </div>*@
-                                                    <div class="col-4">
-                                                        <a class="btn btn-light btn-circle d-inline-block" href="@Url.Action("EmployeeDetails", "Home", new { id = item.EmployeeId })" data-original-title="View details" data-toggle="tooltip" data-placement="top">
-                                                            <i class="fa fa-info text-success"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                            <td class="text-center">
+                                                <a class="btn btn-light btn-circle d-inline-block" href="@Url.Action("EmployeeDetails", "Home", new { id = item.EmployeeId })" data-original-title="View details" data-toggle="tooltip" data-placement="top">
+                                                    <i class="fa fa-info text-success"></i>
+                                                </a>
                                             </td>
                                             <td class="text-center">@item.Name</td>
                                             <td class="text-center">@item.Surname</td>
@@ -168,7 +161,7 @@
                 var ids = '';
                 $(".massCheck").each(function () {
                     if ($(this).is(":checked")) {
-                        ids += $(this).attr("data-id") + "#";
+                        ids = ids + $(this).attr("data-id") + "#";
                     }
                 });
                 if (ids == '') {

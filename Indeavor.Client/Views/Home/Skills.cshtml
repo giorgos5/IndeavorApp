@@ -28,7 +28,8 @@
                             <table class="table table-bordered table-hover dataTable" id="table-invoices" role="grid" style="position: relative">
                                 <thead>
                                     <tr role="row">
-                                        <th class="text-center">name</th>
+                                        <th class="text-center">Info</th>
+                                        <th class="text-center">Name</th>
                                         <th class="text-center">CreationDate</th>
                                         <th></th>
                                     </tr>
@@ -39,27 +40,21 @@
                                     }
                                     @foreach (var item in Model.Skills)
                                     {
-                                        <tr id="@item.SkillId" role="row" class="@(odd ? "odd" : "even")">
-                                            @*<td class="text-center">@item.Name</td>*@
-                                            <td>
-                                                <div class="row text-center">
-                                                    <div class="col-lg-8 m-t-xs" data-toggle="tooltip" data-original-title="@item.SkillId" data-placement="top">
-                                                        @item.Name
-                                                    </div>
-                                                    <div class="col-4">
-                                                        <a class="btn btn-light btn-circle d-inline-block" href="@Url.Action("SkillDetails", "Home", new { id = item.SkillId })" data-original-title="View details" data-toggle="tooltip" data-placement="top">
-                                                            <i class="fa fa-info text-success"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td class="text-center">@item.CreationDate</td>
-                                            <td class="text-center">
-                                                <a class="btnDeleteSkill" data-id="@item.SkillId">
-                                                    <i class="fa fa-trash text-danger"></i>
-                                                </a>
-                                            </td>
-                                        </tr>
+                                    <tr id="@item.SkillId" role="row" class="@(odd ? "odd" : "even")">
+                                        @*<td class="text-center">@item.Name</td>*@
+                                        <td class="text-center">
+                                            <a class="btn btn-light btn-circle d-inline-block" href="@Url.Action("SkillDetails", "Home", new { id = item.SkillId })" data-original-title="View details" data-toggle="tooltip" data-placement="top">
+                                                <i class="fa fa-info text-success"></i>
+                                            </a>
+                                        </td>
+                                        <td class="text-center">@item.Name</td>
+                                        <td class="text-center">@item.CreationDate</td>
+                                        <td class="text-center">
+                                            <a class="btnDeleteSkill" data-id="@item.SkillId">
+                                                <i class="fa fa-trash text-danger"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
                                     }
                                 </tbody>
                             </table>
