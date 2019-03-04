@@ -55,6 +55,7 @@
                                 <table class="table table-bordered table-hover dataTable" id="table-invoices" role="grid" style="position: relative">
                                     <thead>
                                         <tr role="row">
+                                            <th class="text-center">Info</th>
                                             <th class="text-center">Name</th>
                                             <th class="text-center thsort @((@Model.SortMode == -1) ? "sorting_desc" : ((@Model.SortMode == 1) ? "sorting_asc" : "sorting"))" data-val="@((@Model.SortMode == 1) ? -1 : 1)">Surname</th>
                                             <th class="text-center thsort @((@Model.SortMode == -2) ? "sorting_desc" : ((@Model.SortMode == 2) ? "sorting_asc" : "sorting"))" data-val="@((@Model.SortMode == 2) ? -2 : 2)">HiringDate</th>
@@ -62,8 +63,8 @@
                                             <th class="text-center" style="width: 5%;">
                                                 <input class="massCheckAll" type="checkbox" value="" style="margin-left: 20px;">
                                                 @*<div class="i-checks">
-                                                        <input class="massCheckAll" type="checkbox" value="">
-                                                    </div>*@
+                <input class="massCheckAll" type="checkbox" value="">
+            </div>*@
                                             </th>
                                         </tr>
                                     </thead>
@@ -73,30 +74,31 @@
                                         }
                                         @foreach (var item in Model.employees)
                                         {
-                                            <tr id="@item.EmployeeId" role="row" class="@(odd ? "odd" : "even")">
-                                                @*<td class="text-center">@item.Name</td>*@
-                                                <td>
-                                                    <div class="row text-center">
-                                                        <div class="col-lg-8 m-t-xs" data-toggle="tooltip" data-original-title="@item.EmployeeId" data-placement="top">
-                                                            @item.Name
-                                                        </div>
-                                                        <div class="col-4">
-                                                            <a class="btn btn-light btn-circle d-inline-block" href="@Url.Action("EmployeeDetails", "Home", new { id = item.EmployeeId })" data-original-title="View details" data-toggle="tooltip" data-placement="top">
-                                                                <i class="fa fa-info text-success"></i>
-                                                            </a>
-                                                        </div>
+                                        <tr id="@item.EmployeeId" role="row" class="@(odd ? "odd" : "even")">
+                                            @*<td class="text-center">@item.Name</td>*@
+                                            <td>
+                                                <div class="row text-center">
+                                                    @*<div class="col-lg-8 m-t-xs" data-toggle="tooltip" data-original-title="@item.EmployeeId" data-placement="top">
+                                                        @item.Name
+                                                    </div>*@
+                                                    <div class="col-4">
+                                                        <a class="btn btn-light btn-circle d-inline-block" href="@Url.Action("EmployeeDetails", "Home", new { id = item.EmployeeId })" data-original-title="View details" data-toggle="tooltip" data-placement="top">
+                                                            <i class="fa fa-info text-success"></i>
+                                                        </a>
                                                     </div>
-                                                </td>
-                                                <td class="text-center">@item.Surname</td>
-                                                <td class="text-center">@item.HiringDate</td>
-                                                <td class="text-center">@item.Skills.Count</td>
-                                                <td class="text-center">
-                                                    @*<a class="btnDeleteSkill" data-id="@item.EmployeeId">
-                                                            <i class="fa fa-trash text-danger"></i>
-                                                        </a>*@
-                                                    <input class="massCheck" type="checkbox" value="chk_@Html.Raw(item.EmployeeId)" data-id="@item.EmployeeId">
-                                                </td>
-                                            </tr>
+                                                </div>
+                                            </td>
+                                            <td class="text-center">@item.Name</td>
+                                            <td class="text-center">@item.Surname</td>
+                                            <td class="text-center">@item.HiringDate</td>
+                                            <td class="text-center">@item.Skills.Count</td>
+                                            <td class="text-center">
+                                                @*<a class="btnDeleteSkill" data-id="@item.EmployeeId">
+                <i class="fa fa-trash text-danger"></i>
+            </a>*@
+                                                <input class="massCheck" type="checkbox" value="chk_@Html.Raw(item.EmployeeId)" data-id="@item.EmployeeId">
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>

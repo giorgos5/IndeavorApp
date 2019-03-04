@@ -22,15 +22,15 @@ namespace Indeavor.API.Controllers
             _res = res;
             
             _res.Database.EnsureCreated();
-            if(_res.Skills == null || (_res.Skills != null && _res.Skills.Count() == 0))
-            {
-                LoadDefaultSkills();
-            }
+            //if(_res.Skills == null || (_res.Skills != null && _res.Skills.Count() == 0))
+            //{
+            //    LoadDefaultSkills();
+            //}
 
-            if (_res.Employees == null || (_res.Employees != null && _res.Employees.Count() == 0))
-            {
-                LoadDefaultEmployees();
-            }
+            //if (_res.Employees == null || (_res.Employees != null && _res.Employees.Count() == 0))
+            //{
+            //    LoadDefaultEmployees();
+            //}
         }
 
         #region Skills
@@ -107,6 +107,12 @@ namespace Indeavor.API.Controllers
                 Skill skill = new Skill() { SkillId = long.Parse(id) };
                 _res.Skills.Attach(skill);
                 _res.Skills.Remove(skill);
+                
+                foreach(AssignedSkill sk in _res.AssignedSkills.ToList().Where(x => x.SkillId == long.Parse(id)).ToList())
+                {
+                    _res.AssignedSkills.Attach(sk);
+                    _res.AssignedSkills.Remove(sk);
+                }
                 _res.SaveChanges();
 
                 return "1";

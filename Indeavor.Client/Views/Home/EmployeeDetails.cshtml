@@ -30,7 +30,7 @@
                 @Html.DisplayNameFor(model => model.HiringDate)
             </dt>
             <dd>
-                @Html.TextBoxFor(model => model.HiringDate)
+                @Html.TextBoxFor(model => model.HiringDate, new { @type = "date", @style="width: 168px"})
             </dd>
         </dl>
     </div>

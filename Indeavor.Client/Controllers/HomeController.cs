@@ -236,31 +236,6 @@ namespace Indeavor.Client.Controllers
             }
         }
 
-        //public IActionResult About()
-        //{
-        //    ViewData["Message"] = "Your application description page.";
-
-        //    return View();
-        //}
-
-        //public IActionResult Contact()
-        //{
-        //    ViewData["Message"] = "Your contact page.";
-
-        //    return View();
-        //}
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
-
-        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        //public IActionResult Error()
-        //{
-        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        //}
-
         public IActionResult Employees(int? id, string name, string surname)
         {
             Employees employees;
@@ -363,7 +338,6 @@ namespace Indeavor.Client.Controllers
                     {
                         string response = streamReader.ReadToEnd();
                         employee = JsonConvert.DeserializeObject<Employee>(response);
-                        streamReader.Close();
                     }
                 }
                 catch (WebException e)
