@@ -1,0 +1,233 @@
+﻿@model Indeavor.Client.Data.Employees
+
+@using (Html.BeginForm("Employees", "Home", FormMethod.Post, new { id = "SearchBasicForm", enctype = "multipart/form-data" }))
+{
+    <div class="wrapper wrapper-content animated fadeIn">
+        <div class="white-bg">
+            <div class="row">
+                <h3 class="col-lg-12">
+                    EMPLOYEES
+                </h3>
+            </div>
+        </div>
+        <div class="ibox">
+            <div class="ibox-title text-left" style="padding-left: 0;">
+                <h5>
+                    <i class="fa fa-search text-success"></i>
+                    Filters
+                </h5>
+            </div>
+            <div class="ibox-content">
+                <div class="row">
+                    <div class="col-xs-4">
+                        <label class="m-r-md">Name</label>
+                        @Html.TextBoxFor(Model => Model.Name, new { @class = "form-control"})
+                    </div>
+                    <div class="col-xs-4">
+                        <label class="m-r-md">Surname</label>
+                        @Html.TextBoxFor(Model => Model.Surname, new { @class = "form-control" })
+                    </div>
+                    <div class="col-xs-12 text-right m-t-md">
+                        <a class="btn btn-primary" href="#" id="btnSearch">Search</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="ibox">
+            <div class="row">
+                <div class="col-sm-6 ">
+                    <h5><i class="fa fa-asterisk m-r-sm text-success"></i>Tools</h5>
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a id="btnDelete" class="btn btn-danger actionButton disabled m-r-md">Delete</a>
+                    <a class="btn btn-primary actionButton" href="@Url.Action("EmployeeDetails", "Home")">Create Employee</a>
+                </div>
+            </div>
+        </div>
+        <div class="ibox">
+            <div class="ibox-content border-0">
+                @if (Model.employees.Count > 0)
+                {
+                    <div class="row m-t-md">
+                        <div class="col-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover dataTable" id="table-invoices" role="grid" style="position: relative">
+                                    <thead>
+                                        <tr role="row">
+                                            <th class="text-center">Name</th>
+                                            <th class="text-center thsort @((@Model.SortMode == -1) ? "sorting_desc" : ((@Model.SortMode == 1) ? "sorting_asc" : "sorting"))" data-val="@((@Model.SortMode == 1) ? -1 : 1)">Surname</th>
+                                            <th class="text-center thsort @((@Model.SortMode == -2) ? "sorting_desc" : ((@Model.SortMode == 2) ? "sorting_asc" : "sorting"))" data-val="@((@Model.SortMode == 2) ? -2 : 2)">HiringDate</th>
+                                            <th class="text-center">Skills</th>
+                                            <th class="text-center" style="width: 5%;">
+                                                <input class="massCheckAll" type="checkbox" value="" style="margin-left: 20px;">
+                                                @*<div class="i-checks">
+                                                        <input class="massCheckAll" type="checkbox" value="">
+                                                    </div>*@
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            var odd = true;
+                                        }
+                                        @foreach (var item in Model.employees)
+                                        {
+                                            <tr id="@item.EmployeeId" role="row" class="@(odd ? "odd" : "even")">
+                                                @*<td class="text-center">@item.Name</td>*@
+                                                <td>
+                                                    <div class="row text-center">
+                                                        <div class="col-lg-8 m-t-xs" data-toggle="tooltip" data-original-title="@item.EmployeeId" data-placement="top">
+                                                            @item.Name
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <a class="btn btn-light btn-circle d-inline-block" href="@Url.Action("EmployeeDetails", "Home", new { id = item.EmployeeId })" data-original-title="View details" data-toggle="tooltip" data-placement="top">
+                                                                <i class="fa fa-info text-success"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-center">@item.Surname</td>
+                                                <td class="text-center">@item.HiringDate</td>
+                                                <td class="text-center">@item.Skills.Count</td>
+                                                <td class="text-center">
+                                                    @*<a class="btnDeleteSkill" data-id="@item.EmployeeId">
+                                                            <i class="fa fa-trash text-danger"></i>
+                                                        </a>*@
+                                                    <input class="massCheck" type="checkbox" value="chk_@Html.Raw(item.EmployeeId)" data-id="@item.EmployeeId">
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="row m-t-md">
+                        <div class="col-12">
+                            No Records Found
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @Html.HiddenFor(model => model.SortMode, new { @class = "sortmode" })
+}
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+
+            $("#btnSearch").click(function (e) {
+                e.preventDefault();
+                document.getElementById('SearchBasicForm').submit();
+            });
+
+            $(".massCheckAll").on('change', function (event) {
+                if ($(this).is(":checked")) {
+                    $(".massCheck").each(function () {
+                        $(this).prop('checked', true);
+                        //$(this).iCheck('check');
+                    });
+                }
+                else {
+                    $(".massCheck").each(function () {
+                        $(this).prop('checked', false);
+                        //$(this).iCheck('uncheck');
+                    });
+                }
+                EnableMenu();
+            });
+
+            function EnableMenu() {
+                var ids = '';
+                $(".massCheck").each(function () {
+                    if ($(this).is(":checked")) {
+                        ids += $(this).attr("data-id") + "#";
+                    }
+                });
+                if (ids != '') {
+                    $("#btnDelete").removeClass('disabled');
+                }
+                else {
+                    $("#btnDelete").addClass('disabled');
+                }
+            }
+            $(".massCheck").on('change', function (event) {
+                EnableMenu();
+            });
+
+            $('#btnDelete').click(function (e) {
+                var ids = '';
+                $(".massCheck").each(function () {
+                    if ($(this).is(":checked")) {
+                        ids += $(this).attr("data-id") + "#";
+                    }
+                });
+                if (ids == '') {
+                    return;
+                }
+                showConfirmViewModal('Employees Delete', 'Are you sure?', 'btn-primary', function () {
+                    var result = $("#txtCR").val();
+                    $("#txtCR").val('');
+                    if (result == "1") {
+                        $.ajax({
+                            cache: false,
+                            type: "GET",
+                            url: '@Url.Action("DeleteEmployees")',
+                            contentType: 'application/json',
+                            dataType: "json",
+                            data: { IDs: ids },
+                            success: function (data) {
+                                if (data.result) {
+                                    showSuccessViewModal('Delete Employees', 'Employees successfully deleted', '', 'Success', '', function () {
+                                        location.reload();
+                                    });
+                                }
+                                else {
+                                    showSuccessViewModal('Delete Employees', data.Html, '', 'Error', '', function () {
+                                        location.reload();
+                                    });
+                                }
+                            }
+                        });
+                    }
+                    else {
+                    }
+                });
+            });
+
+            $(".btnDeleteSkill").click(function (e) {
+                e.preventDefault();
+                var id = $(this).attr("data-id");
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("DeleteSkill")',
+                    contentType: 'application/json',
+                    dataType: "json",
+                    data: { ID: id },
+                    success: function (data) {
+                        if (data.result) {
+                            location.reload();
+                            @*showSuccessViewModal('@Html.GetLanLabelXML("lblConfirmUnlinkTitle")', '@Html.GetLanLabelXML("lblSuccessUnlink")', '', 'Success', '', function () {
+                                location.reload();
+                            });*@
+                        }
+                        else {
+                            @*showSuccessViewModal('@Html.GetLanLabelXML("lblConfirmUnlinkTitle")', data.Html, '', 'Error', '', function () {
+                            });*@
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+

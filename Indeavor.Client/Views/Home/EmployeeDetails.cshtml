@@ -1,0 +1,227 @@
+﻿@model Indeavor.Client.Data.Employee
+
+@{
+    ViewData["Title"] = "EmployeeDetails";
+}
+
+@using (Html.BeginForm("EmployeeDetails", "Home", FormMethod.Post, new { id = "SearchBasicForm", enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(model => model.EmployeeId)
+    @Html.HiddenFor(model => model.Skills)
+    @Html.HiddenFor(model => model.AssignedSkills)
+    <h2>Employee Details</h2>
+
+    <div class="row m-t-md">
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Name)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Surname)
+            </dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Surname)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.HiringDate)
+            </dt>
+            <dd>
+                @Html.TextBoxFor(model => model.HiringDate)
+            </dd>
+        </dl>
+    </div>
+    <div class="row m-t-md">
+        <div class="col-lg-7 text-left">
+            <div class="col-lg-3">
+                @*<a asp-action="Employees" class="btn btn-info btn-lg btn-block">
+                        Back to List
+                    </a>*@
+            </div>
+        </div>
+        <div class="col-lg-5 text-right">
+            <div class="col-lg-4">
+                <a class="btn btn-primary btn-lg btn-block" id="btnUpdateEmployee">
+                    @if (Model.EmployeeId == 0)
+                    {
+                        <span>Create</span>
+                    }
+                    else
+                    {
+                        <span>Update</span>
+                    }
+                </a>
+            </div>
+        </div>
+    </div>
+    @if (Model.EmployeeId != 0)
+    {
+        <hr />
+        <div class="row m-t-md">
+            <h2>Employee Skills</h2>
+            <div class="ibox">
+                <div class="ibox-content border-0">
+                    @if (Model.Skills.Count > 0)
+                    {
+                        <div class="row m-t-md m-b-md">
+                            <div class="col-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover dataTable" id="table-invoices" role="grid" style="position: relative">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="text-center">name</th>
+                                                <th class="text-center">CreationDate</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @{
+                                                var odd = true;
+                                            }
+                                            @foreach (var item in Model.Skills)
+                                            {
+                                                <tr id="@item.SkillId" role="row" class="@(odd ? "odd" : "even")">
+                                                    @*<td class="text-center">@item.Name</td>*@
+                                                    <td>
+                                                        <div class="row text-center">
+                                                            <div class="col-lg-8 m-t-xs" data-toggle="tooltip" data-original-title="@item.SkillId" data-placement="top">
+                                                                @item.Name
+                                                            </div>
+                                                            <div class="col-4">
+                                                                <a class="btn btn-light btn-circle d-inline-block" href="@Url.Action("SkillDetails", "Home", new { id = item.SkillId })" data-original-title="View details" data-toggle="tooltip" data-placement="top">
+                                                                    <i class="fa fa-info text-success"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-center">@item.CreationDate</td>
+                                                    <td class="text-center">
+                                                        <a class="btnDeleteEmployeeSkill" data-id="@Model.EmployeeId" data-skillid="@item.SkillId">
+                                                            <i class="fa fa-trash text-danger"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="row m-t-md m-b-md">
+                            <div class="col-12">
+                                No Skills Found
+                            </div>
+                        </div>
+                    }
+                    <div class="row">
+                        <div class="col-lg-2 col-sm-12 no-margins no-padding">
+                            <a class="btn btn-primary btn-lg btn-block" id="btnAddEmployeeSkill">
+                                <span>Add Skill</span>
+                            </a>
+                        </div>
+                        <div id="availableSkills" class="col-sm-12 no-margins no-padding" style="display: none;">
+                            <div class="col-sm-10 m-t-md">
+                                @Html.DropDownList("ddlAvailableSkills", new SelectList(Model.AvailableSkills, "SkillId", "Name"), new { @class = "form-control", @style = "height: 40px;" })
+                            </div>
+                            <div class="col-sm-2">
+                                <a id="lnkAddSkill"><i class="fa fa-plus-circle text-success" style="font-size: 2.5em; margin-top: 23px;"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+<div class="row m-t-md">
+    <div class="col-lg-7 text-left no-padding">
+        <div class="col-lg-3 no-padding">
+            <a asp-action="Employees" class="btn btn-info btn-lg btn-block">
+                Back to List
+            </a>
+        </div>
+    </div>
+</div>
+    }
+
+@section Scripts
+    {
+    <script>
+        $(document).ready(function () {
+
+            if ('@ViewBag.Updated' == "1") {
+                showSuccessViewModal('Update Employee', 'Employee successfully updated', '', 'Success', '', function () { });
+            }
+
+            $("#btnUpdateEmployee").click(function (e) {
+                e.preventDefault();
+                $('#SearchBasicForm').submit();
+            });
+
+            $("#btnAddEmployeeSkill").click(function (e) {
+                e.preventDefault();
+                $('#availableSkills').show();
+            });
+
+            $("#lnkAddSkill").click(function (e) {
+                e.preventDefault();
+                var employeeid = '@Model.EmployeeId';
+                var skillid = $("#ddlAvailableSkills").val();
+                $.ajax({
+                    cache: false,
+                    type: "GET",
+                    url: '@Url.Action("AddSkillToEmployee")',
+                    contentType: 'application/json',
+                    dataType: "json",
+                    data: { employeeid: employeeid, skillid: skillid },
+                    success: function (data) {
+                        if (data.result) {
+                            showSuccessViewModal('Add Skill', 'Skill successfully Added', '', 'Success', '', function () {
+                                location.reload();
+                            });
+                        }
+                        else {
+                            showSuccessViewModal('Add Skill', data.Html, '', 'Error', '', function () { });
+                        }
+                    }
+                });
+            });
+
+            $(".btnDeleteEmployeeSkill").click(function (e) {
+                e.preventDefault();
+                var employeeid = $(this).attr("data-id");
+                var skillid = $(this).attr("data-skillid");
+                showConfirmViewModal('Skill Delete', 'Are you sure?', 'btn-primary', function () {
+                    var result = $("#txtCR").val();
+                    $("#txtCR").val('');
+                    if (result == "1") {
+                        $.ajax({
+                            cache: false,
+                            type: "GET",
+                            url: '@Url.Action("DeleteEmployeeSkill")',
+                            contentType: 'application/json',
+                            dataType: "json",
+                            data: { employeeid: employeeid, skillid: skillid },
+                            success: function (data) {
+                                if (data.result) {
+                                    showSuccessViewModal('Delete Skill', 'Skill successfully deleted', '', 'Success', '', function () {
+                                        location.reload();
+                                    });
+                                }
+                                else {
+                                        showSuccessViewModal('Delete Skill', data.Html, '', 'Error', '', function () {
+                                    });
+                                }
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

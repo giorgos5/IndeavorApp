@@ -1,0 +1,136 @@
+﻿
+
+.btn-light {
+    color: #787878 !important;
+    background-color: #f3f3f3;
+    border-color: #ebebeb;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.428571429;
+}
+
+.btn {
+    border-radius: 3px;
+    font-size: inherit;
+}
+
+    .btn .fa, .btn i {
+        margin: 0;
+        line-height: inherit;
+        vertical-align: middle;
+        position: relative;
+        margin-top: -3px;
+    }
+
+a.text-success, .text-success {
+    color: #1c84c6;
+}
+
+.fa {
+    display: inline-block;
+}
+
+.text-success {
+    color: #1c84c6 !important;
+}
+
+dl.dl-horizontal dt {
+    margin-bottom: 20px;
+}
+
+table.table-bordered.dataTable {
+    border-collapse: collapse !important;
+}
+
+table.dataTable thead .sorting, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc, table.dataTable thead .sorting_asc_disabled, table.dataTable thead .sorting_desc_disabled {
+    background-color: #F5F5F6;
+}
+
+table.dataTable.multiHeaders thead .sorting:after, table.dataTable.multiHeaders thead .sorting_asc:after, table.dataTable.multiHeaders thead .sorting_desc:after {
+    margin-top: 17px;
+}
+
+td .btn i.fa {
+    margin-right: 0px;
+}
+
+td .btn {
+    margin-bottom: 0px !important;
+}
+
+.small-box {
+    box-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+    margin: 0 0 15px 0;
+}
+
+    .small-box .col-h {
+        min-height: 140px;
+        overflow: hidden;
+    }
+
+.warning-bg {
+    background-color: #f8ac59 !important;
+}
+
+.small-box .col-h .numb {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 15px;
+    text-align: left;
+}
+
+.small-box .col-h p {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 15px;
+    margin-bottom: 0;
+}
+
+.small-box .numb, .tab-content .numb {
+    font-size: 38px;
+    font-weight: bold;
+    margin: 0 0 0 0;
+    white-space: nowrap;
+    padding: 0;
+    color: #fff;
+}
+
+.small-box p {
+    font-size: 18px;
+    color: #505050;
+    line-height: 20px;
+}
+
+.align-items-center {
+    -ms-flex-align: center !important;
+    align-items: center !important;
+}
+
+.fa:before {
+    vertical-align: middle;
+}
+
+.small-box .icon {
+    -webkit-transition: all 0.3s linear;
+    -o-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    z-index: 0;
+    font-size: 120px;
+    color: rgba(0, 0, 0, 0.03);
+}
+
+.info-bg {
+    background-color: #1ab394 !important;
+}

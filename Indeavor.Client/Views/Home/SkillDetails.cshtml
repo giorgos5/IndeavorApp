@@ -1,0 +1,86 @@
+﻿@model Indeavor.Client.Data.Skill
+
+@{
+    ViewData["Title"] = "SkillDetails";
+}
+
+@using (Html.BeginForm("SkillDetails", "Home", FormMethod.Post, new { id = "SearchBasicForm", enctype = "multipart/form-data" }))
+{
+    <h2>SkillDetails</h2>
+
+    <div class="row m-t-md">
+        <hr />
+        <dl class="dl-horizontal">
+            @*<dt>
+            @Html.DisplayNameFor(model => model.Id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Id)
+        </dd>*@
+            @Html.HiddenFor(model => model.SkillId)
+            <dt>
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd>
+                @Html.TextBoxFor(model => model.Name)
+            </dd>
+            @if (Model.SkillId != 0)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.CreationDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.CreationDate)
+                    @Html.HiddenFor(model => model.CreationDate)
+                </dd>
+            }
+            <dt>
+                @Html.DisplayNameFor(model => model.Details)
+            </dt>
+            <dd>
+                @Html.TextAreaFor(model => model.Details, new { @style = "width: 50%; height: 80px;" })
+            </dd>
+        </dl>
+    </div>
+    <div class="row m-t-md">
+        @*@Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+        <a asp-action="Skills">Back to List</a>*@
+        <div class="col-lg-7 text-left">
+            <div class="col-lg-3">
+                <a asp-action="Skills" class="btn btn-info btn-lg btn-block">
+                    Back to List
+                </a>
+            </div>
+        </div>
+        <div class="col-lg-5 text-right">
+            <div class="col-lg-4">
+                <a class="btn btn-primary btn-lg btn-block" id="btnUpdateSkill">
+                    @if (Model.SkillId == 0)
+                    {
+                        <span>Create</span>
+                    }
+                    else
+                    {
+                        <span>Update</span>
+                    }
+                </a>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#btnUpdateSkill").click(function (e) {
+                e.preventDefault();
+                $('#SearchBasicForm').submit();
+            });
+
+            if ('@ViewBag.Updated' == "1") {
+                showSuccessViewModal('Update Skill', 'Skill successfully updated', '', 'Success', '', function () { });
+            }
+        });
+    </script>
+}

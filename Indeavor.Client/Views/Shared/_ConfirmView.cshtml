@@ -1,0 +1,60 @@
+﻿<div class="modal fade" id="confirmView" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title confirmView-modal-title" id="ModalLabel"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -22px;"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body confirmView-modal-body confirm">
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-3 col-md-auto m-0 col-sm-offset-6">
+                    <button type="button" class="btn btn-default btn-block" data-dismiss="modal" id="btnNo">NO</button>
+                </div>
+                <div class="col-sm-3 col-md-auto m-0">
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="btnYes">YES</button>
+                </div>
+                <input type="hidden" id="txtCR" value="" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    _mycallback = null;
+    //btnclass { btn-default , btn-warning, btn-danger}
+    function showConfirmViewModal(title, html, btnclass, callback) {
+        try {
+            var _btnclass = "btn-default";
+            if (btnclass != null && btnclass != undefined && btnclass != '') {
+                _btnclass = btnclass;
+            }
+            $("#btnYes").addClass(_btnclass)
+            $('.confirmView-modal-title').html(title);
+            $('.confirmView-modal-body').html(html);
+            $('#confirmView').modal('show');
+            _mycallback = callback;
+        }
+        catch (err) {
+            showSuccessViewModal('Generic Error', err, null, 'Error', '', function () { });
+        }
+    }
+
+    $(document).ready(function () {
+        $("#btnYes").click(function () {
+            $("#txtCR").val("1");
+            if (_mycallback != null && _mycallback != undefined) {
+                _mycallback();
+                _mycallback = null;
+            }
+        });
+        $("#btnNo").click(function () {
+            $("#txtCR").val("0");
+            if (_mycallback != null && _mycallback != undefined) {
+                _mycallback();
+                _mycallback = null;
+            }
+        });
+    });
+
+</script>

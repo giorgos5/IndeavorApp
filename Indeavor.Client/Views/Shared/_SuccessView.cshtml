@@ -1,0 +1,98 @@
+﻿<div class="modal fade" id="successView" tabindex="-1" role="dialog" aria-labelledby="successModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title successview-modal-title" id="ModalLabel"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="margin-top: -22px;"><span aria-hidden="true">&times;</span></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="row align-items-center no-gutters">
+                    <div class="col-auto"><i class="" id="messageIcon"></i></div>
+                    <div class="col-sm-12 successview-modal-body success">
+                    </div>
+                </div>
+            </div>
+            <div class="row bg-grey-imp notificationDiv" id="moreSection" style="display:none">
+                <div class="" data-toggle="searchform">
+                    <span class="salesLabel"><i class="fa fa-bell"></i>WARNING</span>
+                </div>
+                <div class="modal-more" id="moreDetails">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-sm-3 col-sm-auto col-sm-offset-9">
+                    <button type="button" class="btn btn-primary btn-block" data-dismiss="modal" id="btnOK">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    _mycallback = null;
+    //btnclass { btn-default , btn-warning, btn-danger}
+    function showSuccessViewModal(title, html, btnclass, messagetype, moredetails, callback) {
+        try {
+
+            var _btnclass = "darkBlueButton";
+            if (btnclass != null && btnclass != undefined && btnclass != '') {
+                _btnclass = btnclass;
+            }
+
+            $("#messageIcon").attr('class', '')
+
+            if (messagetype == 'Error')
+                $("#messageIcon").addClass("fa fa-times-circle-o error-message text-red");
+            else if (messagetype == 'Warning')
+                $("#messageIcon").addClass("fa fa-exclamation-circle error-message text-orange");
+            else if (messagetype == 'Success')
+                $("#messageIcon").addClass("fa fa-check-circle-o success-message");
+
+            $("#btnOK").addClass(_btnclass)
+            $('.successview-modal-title').html(title);
+            $('.successview-modal-body').html(html);
+
+            var link = $('.successview-modal-body a').attr('href');
+            if (link != "#" && link != null && link != "")
+            {
+                $('.successview-modal-body a').addClass("text-service");
+            }
+
+            if (moredetails != null && moredetails != undefined && moredetails != '') {
+                $('#moreDetails').html(moredetails);
+                $('#moreSection').show();
+            }
+
+            $('#successView').modal('show');
+            _mycallback = callback;
+        }
+        catch (err) {
+            alert(err.message);
+        }
+    }
+    $(document).ready(function () {
+        function Cleanup()
+        {
+            if (_mycallback != null && _mycallback != undefined) {
+                _mycallback();
+                _mycallback = null;
+                $("#messageIcon").attr('class', '')
+                $('.successview-modal-title').html('');
+                $('.successview-modal-body').html('');
+                $('#moreDetails').html('');
+            }
+        }
+        $("#btnOK").click(function () {
+            Cleanup();
+        });
+
+        $(document).on("click", "#lnkDownload", function () {
+            Cleanup();
+            $('#successView').modal('toggle');
+        });
+
+
+    });
+
+</script>
